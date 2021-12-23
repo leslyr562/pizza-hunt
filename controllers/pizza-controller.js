@@ -53,17 +53,17 @@ createPizza({ body }, res) {
 
 // update pizza by id PUT
 updatePizza({ params, body }, res) {
-    //By setting the parameter to true, we're instructing Mongoose to return the new version of the document.
-    Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
-          return;
-        }
-        res.json(dbPizzaData);
-      })
-      .catch(err => res.status(400).json(err));
-  },
+  //We need to include this explicit setting when updating data so that it knows to validate any new information.
+  Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
+    .then(dbPizzaData => {
+      if (!dbPizzaData) {
+        res.status(404).json({ message: 'No pizza found with this id!' });
+        return;
+      }
+      res.json(dbPizzaData);
+    })
+    .catch(err => res.status(400).json(err));
+},
 
 // delete pizza
 deletePizza({ params }, res) {

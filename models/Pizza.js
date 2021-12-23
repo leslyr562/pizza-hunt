@@ -4,10 +4,15 @@ const dateFormat = require('../utils/dateFormat');
 const PizzaSchema = new Schema(
   {
     pizzaName: {
-      type: String
+      type: String,
+      required:  'You need to provide a pizza name!',
+      // trim option that's been added, which works just like the JavaScript .trim() method and removes white space before and after the input string. 
+      trim: true
     },
     createdBy: {
-      type: String
+      type: String,
+      required: true,
+      trim: true
     },
     createdAt: {
       type: Date,
@@ -16,6 +21,9 @@ const PizzaSchema = new Schema(
     },
     size: {
       type: String,
+      required: true,
+      //enumerable, a popular term in web development that refers to a set of data that can be iterated over
+      enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
       default: 'Large'
     },
     toppings: [],
